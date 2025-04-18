@@ -1,0 +1,9 @@
+<div class="container">
+    <h2>משתמשים מחוברים</h2>
+    <div *ngIf="errorMessage" class="alert alert-danger">
+      {{ errorMessage }}
+    </div>
+    <ol class="user-list">
+      <li *ngFor="let user of users">{{ user }}</li>
+    </ol>
+</div>

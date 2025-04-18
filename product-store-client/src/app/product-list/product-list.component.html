@@ -1,0 +1,117 @@
+<div class="container">
+    <h2>רשימת מוצרים</h2>
+
+    <div class="filters">
+        <input
+            type="text"
+            [(ngModel)]="filterName"
+            placeholder="סנן לפי שם"
+            class="form-control"
+        />
+        <input
+            type="number"
+            [(ngModel)]="filterPrice"
+            placeholder="מחיר מקסימלי למוצר"
+            class="form-control"
+        />
+        <input
+            type="number"
+            [(ngModel)]="filterQuantity"
+            placeholder="סנן לפי כמות מנימלית"
+            class="form-control"
+        />
+    </div>
+
+    <div *ngIf="products.length > 0">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>שם המוצר</th>
+                    <th>תיאור</th>
+                    <th>מחיר</th>
+                    <th>כמות</th>
+                    <th *ngIf="isAdmin">פעולות</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let product of filteredProducts()">
+                    <td>{{ product.name }}</td>
+                    <td>{{ product.description }}</td>
+                    <td>{{ product.price }} ₪</td>
+                    <td>{{ product.quantity }}</td>
+                    <td *ngIf="isAdmin">
+                        <button class="btn btn-warning" (click)="editProduct(product)">
+                            {{ selectedProduct === product ? 'סגור עריכה' : 'ערוך' }}
+                        </button>
+                        <button class="btn btn-danger" (click)="deleteProduct(product.id)">
+                            מחק
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div *ngIf="selectedProduct" class="form-container">
+        <div class="form-header">
+            <h3>ערוך מוצר</h3>
+        </div>
+
+        <form (ngSubmit)="updateProduct(selectedProduct.id, selectedProduct)">
+            <div class="form-group">
+                <label for="name">שם המוצר</label>
+                <input
+                    id="name"
+                    [(ngModel)]="selectedProduct.name"
+                    name="name"
+                    type="text"
+                    class="form-control"
+                    required
+                />
+            </div>
+
+            <div class="form-group">
+                <label for="description">תיאור המוצר</label>
+                <input
+                    id="description"
+                    [(ngModel)]="selectedProduct.description"
+                    name="description"
+                    type="text"
+                    class="form-control"
+                    required
+                />
+            </div>
+
+            <div class="form-group">
+                <label for="price">מחיר</label>
+                <input
+                    id="price"
+                    [(ngModel)]="selectedProduct.price"
+                    name="price"
+                    type="number"
+                    class="form-control"
+                    required
+                />
+            </div>
+
+            <div class="form-group">
+                <label for="quantity">כמות</label>
+                <input
+                    id="quantity"
+                    [(ngModel)]="selectedProduct.quantity"
+                    name="quantity"
+                    type="number"
+                    class="form-control"
+                    required
+                />
+            </div>
+
+            <button type="submit" class="btn btn-primary">שמור שינויים</button>
+            <button (click)="cancelEdit()" class="btn btn-secondary mt-2">בטל</button>
+        </form>
+    </div>
+
+    <div *ngIf="products.length === 0">
+        <p>אין מוצרים להציג</p>
+    </div>
+</div>

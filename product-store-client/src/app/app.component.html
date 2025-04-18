@@ -1,0 +1,12 @@
+<div class="container">
+    <h1>{{ title }}</h1>
+    <button *ngIf="isLoggedIn" class="logout-btn" (click)="logout()">התנתק</button>
+
+    <nav *ngIf="role === 'Admin'">
+        <a routerLink="/product-list">רשימת מוצרים</a> |
+        <a routerLink="/add-product">הוספת מוצר</a> | 
+        <a routerLink="/live-users">משתמשים מחוברים</a>
+    </nav>
+
+    <router-outlet></router-outlet>
+</div>
